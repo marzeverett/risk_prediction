@@ -127,6 +127,16 @@ def create_df_list(cases):
         df_list.append(df)
     return df_list
 
+def split_training_test(df):
+    num_rows = len(df.index)
+    #0.2 - 20 percent training set - kind of a magic number 
+    split_index = num_rows - math.ceil(num_rows*0.2)
+    train_df = df.iloc[:split_index, :]
+    test_df = df.iloc[split_index:, :]
+    test_df = test_df.reset_index()
+    return train_df, test_df
+    
+
 
 def run_experiments(phase_name, default_parameter_dict, name, sites, key=None, all_data=False, sequence=False, df_list=False):
     default_dict = return_default_parameter_dict()
@@ -136,18 +146,23 @@ def run_experiments(phase_name, default_parameter_dict, name, sites, key=None, a
     consequent_dict = return_default_consequent_dict()
     full_name = name
     list_features_dict = create_feature_dict(datastream_fields, key, "Time")
-    train_df = create_df_list(sites)
-    #print(list_features_dict)
-    #Split into training and test df 
-    #num_rows = len(df.index)
-    #0.1 - 10 percent training set - kind of a magic number 
-    #Test and Training DF lists going to have to be different 
+    df = create_df_list(sites)
+
+    #Since we are doing this, fine for now. 
+    if df_list:
+        train_df = []
+        test_df = []
+        for nested_df in df:
+            sub_train_df, sub_test_df = split_training_test(df)
+            train_df.append(sub_train_df)
+            test_df.append(sub_test_df)
+    else:
+        train_df, test_df = split_training_test(df)
 
     #Run the experiment
     pop = ga_population.population(default_dict, consequent_dict, list_features_dict, key, train_df)
     pop.run_experiment(name=full_name)
     #Going to have to change that 
-    test_df = train_df
     #Eval - For each top rule and for the ensemble classifiers
     filename = f"generated_files/{full_name}/"
     ga_predictor.complete_eval_top_rules(filename, key, test_df, sequence=sequence, df_list=df_list)
