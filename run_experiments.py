@@ -153,7 +153,7 @@ def run_experiments(phase_name, default_parameter_dict, name, sites, key=None, a
         train_df = []
         test_df = []
         for nested_df in df:
-            sub_train_df, sub_test_df = split_training_test(df)
+            sub_train_df, sub_test_df = split_training_test(nested_df)
             train_df.append(sub_train_df)
             test_df.append(sub_test_df)
     else:
