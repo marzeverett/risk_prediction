@@ -1,0 +1,122 @@
+[
+    {
+        "parameters": {
+            "Ppt_mm_Tot": {
+                "lower_bound": 0.0,
+                "upper_bound": 1.0083117881247692
+            }
+        },
+        "support": 0.2532894736842105,
+        "confidence": 0.328125,
+        "lift": 1.260884831460674,
+        "fitness": 0.16178553855891484
+    },
+    {
+        "parameters": {
+            "Ppt_mm_Tot": {
+                "lower_bound": 0.0,
+                "upper_bound": 1.0365386810723174
+            }
+        },
+        "support": 0.2532894736842105,
+        "confidence": 0.328125,
+        "lift": 1.260884831460674,
+        "fitness": 0.16178553855891484
+    },
+    {
+        "parameters": {
+            "Ppt_mm_Tot": {
+                "lower_bound": 0.0,
+                "upper_bound": 1.0849256487415182
+            }
+        },
+        "support": 0.2532894736842105,
+        "confidence": 0.328125,
+        "lift": 1.260884831460674,
+        "fitness": 0.16178553855891484
+    },
+    {
+        "parameters": {
+            "Ppt_mm_Tot": {
+                "lower_bound": 0.0,
+                "upper_bound": 1.2953226224243861
+            }
+        },
+        "support": 0.2536549707602339,
+        "confidence": 0.32704995287464655,
+        "lift": 1.2567537514958327,
+        "fitness": 0.1617211946238391
+    },
+    {
+        "parameters": {
+            "Ppt_mm_Tot": {
+                "lower_bound": 0.0,
+                "upper_bound": 0.7801830866750596
+            }
+        },
+        "support": 0.25219298245614036,
+        "confidence": 0.3306181121226641,
+        "lift": 1.2704651050106868,
+        "fitness": 0.1616064655833173
+    },
+    {
+        "parameters": {
+            "Ppt_mm_Tot": {
+                "lower_bound": 0.0,
+                "upper_bound": 0.7522508510029475
+            }
+        },
+        "support": 0.25219298245614036,
+        "confidence": 0.3306181121226641,
+        "lift": 1.2704651050106868,
+        "fitness": 0.1616064655833173
+    },
+    {
+        "parameters": {
+            "Ppt_mm_Tot": {
+                "lower_bound": 0.0,
+                "upper_bound": 0.3293908627678528
+            }
+        },
+        "support": 0.25,
+        "confidence": 0.3343108504398827,
+        "lift": 1.28465517809483,
+        "fitness": 0.16058189726185376
+    },
+    {
+        "parameters": {
+            "Ppt_mm_Tot": {
+                "lower_bound": 0.0,
+                "upper_bound": 0.3293908627678528
+            }
+        },
+        "support": 0.25,
+        "confidence": 0.3343108504398827,
+        "lift": 1.28465517809483,
+        "fitness": 0.16058189726185376
+    },
+    {
+        "parameters": {
+            "Ppt_mm_Tot": {
+                "lower_bound": 0.0,
+                "upper_bound": 0.3293908627678528
+            }
+        },
+        "support": 0.25,
+        "confidence": 0.3343108504398827,
+        "lift": 1.28465517809483,
+        "fitness": 0.16058189726185376
+    },
+    {
+        "parameters": {
+            "Ppt_mm_Tot": {
+                "lower_bound": 0.0,
+                "upper_bound": 0.3293908627678528
+            }
+        },
+        "support": 0.25,
+        "confidence": 0.3343108504398827,
+        "lift": 1.28465517809483,
+        "fitness": 0.16058189726185376
+    }
+]

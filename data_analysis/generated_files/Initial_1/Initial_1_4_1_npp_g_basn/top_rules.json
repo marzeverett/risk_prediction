@@ -1,0 +1,122 @@
+[
+    {
+        "parameters": {
+            "Air_TempC_Min": {
+                "lower_bound": -4.814956614797183,
+                "upper_bound": -0.23734397349833836
+            }
+        },
+        "support": 0.12426900584795321,
+        "confidence": 1.0,
+        "lift": 4.470588235294118,
+        "fitness": 0.13807667316439245
+    },
+    {
+        "parameters": {
+            "Air_TempC_Min": {
+                "lower_bound": -4.801551905853989,
+                "upper_bound": -0.23734397349833836
+            }
+        },
+        "support": 0.12426900584795321,
+        "confidence": 1.0,
+        "lift": 4.470588235294118,
+        "fitness": 0.13807667316439245
+    },
+    {
+        "parameters": {
+            "Air_TempC_Min": {
+                "lower_bound": -4.816034139444396,
+                "upper_bound": -0.22584862085174656
+            }
+        },
+        "support": 0.12426900584795321,
+        "confidence": 1.0,
+        "lift": 4.470588235294118,
+        "fitness": 0.13807667316439245
+    },
+    {
+        "parameters": {
+            "Air_TempC_Min": {
+                "lower_bound": -4.816034139444396,
+                "upper_bound": -0.2459023693876809
+            }
+        },
+        "support": 0.12390350877192982,
+        "confidence": 1.0,
+        "lift": 4.470588235294118,
+        "fitness": 0.137265651874785
+    },
+    {
+        "parameters": {
+            "Air_TempC_Min": {
+                "lower_bound": -4.816034139444396,
+                "upper_bound": -0.24118020026395176
+            }
+        },
+        "support": 0.12390350877192982,
+        "confidence": 1.0,
+        "lift": 4.470588235294118,
+        "fitness": 0.137265651874785
+    },
+    {
+        "parameters": {
+            "Air_TempC_Min": {
+                "lower_bound": -4.850138753202199,
+                "upper_bound": -0.2596152522135286
+            }
+        },
+        "support": 0.12353801169590643,
+        "confidence": 1.0,
+        "lift": 4.470588235294118,
+        "fitness": 0.13645701945495547
+    },
+    {
+        "parameters": {
+            "Air_TempC_Min": {
+                "lower_bound": -4.833922669760778,
+                "upper_bound": -0.2596152522135286
+            }
+        },
+        "support": 0.12353801169590643,
+        "confidence": 1.0,
+        "lift": 4.470588235294118,
+        "fitness": 0.13645701945495547
+    },
+    {
+        "parameters": {
+            "Air_TempC_Min": {
+                "lower_bound": -4.821384733204572,
+                "upper_bound": -0.2596152522135286
+            }
+        },
+        "support": 0.12353801169590643,
+        "confidence": 1.0,
+        "lift": 4.470588235294118,
+        "fitness": 0.13645701945495547
+    },
+    {
+        "parameters": {
+            "Air_TempC_Min": {
+                "lower_bound": -4.821052564934614,
+                "upper_bound": -0.2753773949397267
+            }
+        },
+        "support": 0.12280701754385964,
+        "confidence": 1.0,
+        "lift": 4.470588235294118,
+        "fitness": 0.1348469212246302
+    },
+    {
+        "parameters": {
+            "Air_TempC_Min": {
+                "lower_bound": -4.819631388144981,
+                "upper_bound": -0.2753773949397267
+            }
+        },
+        "support": 0.12280701754385964,
+        "confidence": 1.0,
+        "lift": 4.470588235294118,
+        "fitness": 0.1348469212246302
+    }
+]
