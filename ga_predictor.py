@@ -86,7 +86,7 @@ def count_parameter_matches(rule, sub_df, earliest):
 #Look at this for evaluations when it comes to ensemble rules as well. 
 def get_sequence_predictions(rule, test_df):
     predict_df = test_df.copy()
-    predict_df.assign(predictions=0)
+    predict_df = predict_df.assign(predictions=0)
     #You'll have to get the outer bounds for the rule again
     earliest, latest, earliest_param_name = get_rule_sequence_bounds_and_earliest(rule)
     #Get each row 
