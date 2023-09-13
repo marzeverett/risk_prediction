@@ -36,7 +36,7 @@ params_dicts = {
 }
 
 #NAME - {phase_name}_{parameter_index}_{Run}
-phase_name = "Vital_Sequence_1
+phase_name = "Vital_Sequence_1"
 key="gluc_risk"
 for param_dict_index in list(params_dicts.keys()):
     for run_index in list(runs.keys()):
