@@ -72,7 +72,7 @@ for case in cases:
             name = f'{phase_name}_{param_dict_index}_{run_index}_{case}'
             sequence_val = params_dicts[param_dict_index]["sequence"]
             df_list_val = params_dicts[param_dict_index]["df_list"]
-            run_experiments.run_experiments(phase_name, params_dicts[param_dict_index], name, cases, key=key, sequence=sequence_val, df_list=df_list_val)
+            run_experiments.run_experiments(phase_name, params_dicts[param_dict_index], name, [case], key=key, sequence=sequence_val, df_list=df_list_val)
 
 
 
