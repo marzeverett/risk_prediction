@@ -153,10 +153,10 @@ def calc_consequent_support(consequent_dict, df):
 
 
 
-df = pd.read_csv("frost_csvs/npp_c_cali.csv")
-features_dict = calc_parameters(list_features_dict, default_parameter_dict, df, key)
-key = "frost"
-consequent_support, num_consequent, consequent_indexes = calc_consequent_support(consequent_dict, df)
+# df = pd.read_csv("frost_csvs/npp_c_cali.csv")
+# features_dict = calc_parameters(list_features_dict, default_parameter_dict, df, key)
+# key = "frost"
+# consequent_support, num_consequent, consequent_indexes = calc_consequent_support(consequent_dict, df)
 
 
 ##Params 
@@ -183,6 +183,20 @@ consequent_support, num_consequent, consequent_indexes = calc_consequent_support
 # pop.run_experiment()
 
 
-filename = f"generated_files/None/"
-key = "emop"
-ga_predictor.complete_eval_top_rules(filename, key, df, sequence=True, df_list=True)
+
+
+# print(len(test_df.index))
+df = pd.read_csv("vital_csvs/3719_resampled.csv")
+
+num_rows = len(df.index)
+#0.1 - 10 percent training set - kind of a magic number 
+split_index = num_rows - math.ceil(num_rows*0.2)
+#print(num_rows)
+#print(split_index)
+train_df = df.iloc[:split_index, :]
+test_df = df.iloc[split_index:, :]
+test_df = test_df.reset_index()
+
+filename = f"generated_files/Vital_Sequence_1_1_1_3719/"
+key = "gluc_risk"
+ga_predictor.complete_eval_top_rules(filename, key, [test_df], sequence=True, df_list=True)

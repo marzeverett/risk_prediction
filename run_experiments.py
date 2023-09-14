@@ -154,10 +154,12 @@ def run_experiments(phase_name, default_parameter_dict, name, sites, key=None, a
         test_df = []
         for nested_df in df:
             sub_train_df, sub_test_df = split_training_test(nested_df)
+            sub_test_df = sub_test_df.reset_index()
             train_df.append(sub_train_df)
             test_df.append(sub_test_df)
     else:
         train_df, test_df = split_training_test(df)
+        test_test_df.reset_index()
 
     #Run the experiment
     pop = ga_population.population(default_dict, consequent_dict, list_features_dict, key, train_df)

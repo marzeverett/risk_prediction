@@ -135,6 +135,7 @@ def get_predictions_from_rule(rule, test_df, sequence=False, df_list=False):
 
 
 def get_pred_and_true(predict_df, key, first_valid_index=False, df_list=False):
+    #Initial Df index length
     if first_valid_index:
         eval_df = predict_df.iloc[first_valid_index:]
     else:
@@ -156,7 +157,6 @@ def evaluate_prediction_model(predict_df, key, model_index=0, first_valid_index=
             true = true + sub_true   
     else:
         pred, true = get_pred_and_true(predict_df[i], first_valid_index=first_valid_index[i], df_list=df_list)
-
     eval_dict["Accuracy"] = metrics.accuracy_score(true, pred)
     confusion_matrix = metrics.confusion_matrix(true, pred)
     values_array = confusion_matrix.ravel()
@@ -170,27 +170,64 @@ def evaluate_prediction_model(predict_df, key, model_index=0, first_valid_index=
 
     return eval_dict
 
+
+
+def get_sum_and_votes(prediction_list, vote_threshold):
+    first_predictions =  prediction_list[0]
+    for i in range(1, len(prediction_list)):
+        first_predictions["predictions"] = first_predictions["predictions"] + prediction_list[i]["predictions"]   
+    first_predictions.loc[first_predictions["predictions"] >= vote_threshold, "predictions"] = 1
+    first_predictions.loc[first_predictions["predictions"] < vote_threshold, "predictions"] = 0
+    return first_predictions
+
+
 #This is a bit screwed up for average predictions 
 def ensemble_learn(list_of_rules, test_df, sequence=False, df_list=False):
     #Get the predictions for each rule in the list
     num_models = len(list_of_rules)
     prediction_list = []
     valid_indexes = []
+
+    num_predictors = len(list_of_rules)
+    #Simple majority vote - more than half wins 
+    vote_threshold = num_predictors/2 
+
     #Get all the prediction dfs for a single rule 
     for single_rule in list_of_rules:
         sub_df, first_valid_index = get_predictions_from_rule(single_rule, test_df, sequence=sequence, df_list=df_list)
-        valid_indexes.append(first_valid_index)
+        if df_list:
+            valid_indexes.append(min(first_valid_index))
+        else:
+            valid_indexes.append(first_valid_index)
         #Weight them appropriately
-        sub_df["predictions"] = sub_df["predictions"]/num_models
         prediction_list.append(sub_df)
 
-    first_predictions =  prediction_list[0]
+    if df_list:
+        #Start with our first 
+        first_predictions = []
+        for nested_item in prediction_list:
+            first_predictions.append(get_sum_and_votes(nested_item, vote_threshold))
+    else:
+        first_predictions =  get_sum_and_votes(prediction_list, vote_threshold)
+    #Return things 
+    if df_list:
+        return first_predictions, valid_indexes
+    else:
+        return first_predictions, min(valid_indexes)
+
+
+    if df_list:
+            valid_indexes.append(min(first_valid_index))
+    else:
+        valid_indexes.append(first_valid_index)
+
+
+def get_predictions_or(prediction_list):
+    first_predictions = prediction_list[0]
     for i in range(1, len(prediction_list)):
-        first_predictions["predictions"] = first_predictions["predictions"] + prediction_list[i]["predictions"]
-    
-    first_predictions.loc[first_predictions["predictions"] >= 0.5, "predictions"] = 1
-    first_predictions.loc[first_predictions["predictions"] < 0.5, "predictions"] = 0
-    return first_predictions, min(valid_indexes)
+        first_predictions["predictions"] = first_predictions["predictions"] | prediction_list[i]["predictions"]
+    return first_predictions
+
 
 def ensemble_learn_or(list_of_rules, test_df, sequence=False, df_list=False):
     #Get the predictions for each rule in the list
@@ -209,17 +246,10 @@ def ensemble_learn_or(list_of_rules, test_df, sequence=False, df_list=False):
     if df_list:
         #Start with our first 
         first_predictions = []
-        for k in range(0, len(prediction_list[0])):
-            first_predictions.append(prediction_list[0][k])
-        for i in range(1, len(prediction_list)):
-            #For each sub df
-            for j in range(0, len(prediction_list[i])):
-                first_predictions[j]["predictions"] = first_predictions[j]["predictions"] | prediction_list[i][j]["predictions"]
+        for nested_item in prediction_list:
+            first_predictions.append(get_predictions_or(nested_item))
     else:
-        first_predictions = prediction_list[0]
-        for i in range(1, len(prediction_list)):
-            first_predictions["predictions"] = first_predictions["predictions"] | prediction_list[i]["predictions"]
-
+        first_predictions = get_predictions_or(prediction_list)
     #Return things 
     if df_list:
         return first_predictions, valid_indexes
@@ -253,14 +283,14 @@ def complete_eval_top_rules(filepath_start, key, df, sequence=False, df_list=Fal
     #Get best rules with unique fitness 
     best_unique_rules = get_unique_fitness_rules(rules_list)
     #Ensemble of best rules - average 
-    if not df_list:
-        predict_df, first_valid_index = ensemble_learn(rules_list, df, sequence=sequence, df_list=df_list)
-        eval_dict = evaluate_prediction_model(predict_df, key, model_index="ensemble_avg", first_valid_index=first_valid_index, df_list=df_list)
-        eval_dict_list.append(eval_dict)
-        #Ensemble of best unique rules - average
-        predict_df, first_valid_index = ensemble_learn(best_unique_rules, df, sequence=sequence, df_list=df_list)
-        eval_dict = evaluate_prediction_model(predict_df, key, model_index="ensemble_uniq_avg", first_valid_index=first_valid_index, df_list=df_list)
-        eval_dict_list.append(eval_dict)
+    #if not df_list:
+    predict_df, first_valid_index = ensemble_learn(rules_list, df, sequence=sequence, df_list=df_list)
+    eval_dict = evaluate_prediction_model(predict_df, key, model_index="ensemble_avg", first_valid_index=first_valid_index, df_list=df_list)
+    eval_dict_list.append(eval_dict)
+    #Ensemble of best unique rules - average
+    predict_df, first_valid_index = ensemble_learn(best_unique_rules, df, sequence=sequence, df_list=df_list)
+    eval_dict = evaluate_prediction_model(predict_df, key, model_index="ensemble_uniq_avg", first_valid_index=first_valid_index, df_list=df_list)
+    eval_dict_list.append(eval_dict)
     #Ensemble of best rules - Or 
     predict_df, first_valid_index = ensemble_learn_or(rules_list, df, sequence=sequence, df_list=df_list)
     eval_dict = evaluate_prediction_model(predict_df, key, model_index="ensemble_or", first_valid_index=first_valid_index, df_list=df_list)
@@ -278,3 +308,11 @@ def complete_eval_top_rules(filepath_start, key, df, sequence=False, df_list=Fal
 
 #print(eval_dict)
 #complete_eval_top_rules("generated_files/None/", "frost")
+
+
+# for k in range(0, len(prediction_list[0])):
+#             first_predictions.append(prediction_list[0][k])
+#         for i in range(1, len(prediction_list)):
+#             #For each sub df
+#             for j in range(0, len(prediction_list[i])):
+#                 first_predictions[j]["predictions"] = first_predictions[j]["predictions"] | prediction_list[i][j]["predictions"]
