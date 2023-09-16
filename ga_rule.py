@@ -156,12 +156,12 @@ class rule:
             total_applicable = 0
             for nested_df in df:
                 if earliest - latest > 0:
-                    total_applicable += math.floor(len(nested_df.index)/(earliest-latest))
+                    total_applicable += math.floor(len(nested_df.index)-(earliest-latest))
                 else:
                     total_applicable += len(nested_df.index)
         else:
             if earliest - latest > 0:
-                total_applicable = math.floor(len(df.index)/(earliest-latest))
+                total_applicable = math.floor(len(df.index)-(earliest-latest))
             else:
                 total_applicable = len(df.index)
         #If there is only one parameter in the rule, or if somehow only one slice of the sequence is present 
@@ -235,12 +235,12 @@ class rule:
             total_applicable = 0
             for nested_df in df:
                 if earliest - latest > 0:
-                    total_applicable += math.floor(len(nested_df.index)/(earliest-latest))
+                    total_applicable += math.floor(len(nested_df.index)-(earliest-latest))
                 else:
                     total_applicable += len(nested_df.index)
         else:
             if earliest - latest > 0:
-                total_applicable = math.floor(len(df.index)/(earliest-latest))
+                total_applicable = math.floor(len(df.index)-(earliest-latest))
             else:
                 total_applicable = len(df.index)
         #Might want to make this something that is always calculated 
