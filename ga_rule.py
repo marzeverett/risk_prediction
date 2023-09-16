@@ -147,6 +147,16 @@ class rule:
                 #print(f"Couldn't slice this {index_val} {total_range+1}: {e}")
         return num_true
 
+    def get_full_possible_indexes(self, indexes, total_range):
+        full_indexes = []
+        for index in indexes:
+            index_range_1 = list(range(index, index+total_range))
+            index_range_2 = list(range(index-total_range, index))
+            full_indexes = full_indexes + index_range_1
+            full_indexes = full_indexes + index_range_2
+        full_indexes = [*set(full_indexes)]
+        return full_indexes
+
 
     #Get the support of the antecedent for a sequence. 
     def calc_antecedent_support_sequence(self, df):
@@ -165,7 +175,7 @@ class rule:
             else:
                 total_applicable = len(df.index)
         #If there is only one parameter in the rule, or if somehow only one slice of the sequence is present 
-        if total_range == 0 or len(self.active_parameters) < 2:
+        if total_range == 0:
             #Then its just going to be the normal non-sequence support calc
             self.calc_antecedent_support_non_sequence(df)
             if total_applicable > 0:
@@ -176,23 +186,27 @@ class rule:
             #print(query)
             if self.df_list:
                 index_list = []
+                full_indexes = []
                 for nested_df in df:
                     bool_df = nested_df.eval(query)
                     indexes = bool_df[bool_df].index
                     index_list.append(indexes.tolist())
+                    sub_full_indexes = self.get_full_possible_indexes(indexes, total_range)
+                    full_indexes.append(sub_full_indexes)
             else:
                 bool_df = df.eval(query)
                 indexes = bool_df[bool_df].index
                 index_list = indexes.tolist()
+                full_indexes = self.get_full_possible_indexes(index_list, total_range)
             remaining_params = self.active_parameters.copy()
-            remaining_params.remove(earliest_param_name)
+            #remaining_params.remove(earliest_param_name)
             num_true = 0
             if self.df_list:
                 for i in range(0, len(df)):
                     #Get the count
-                    num_true += self.count_params_fitting_indexes(df[i], total_range, index_list[i], remaining_params, earliest)
+                    num_true += self.count_params_fitting_indexes(df[i], total_range, full_indexes[i], remaining_params, earliest)
             else:
-                num_true = self.count_params_fitting_indexes(df, total_range, index_list, remaining_params, earliest)
+                num_true = self.count_params_fitting_indexes(df, total_range, full_indexes, remaining_params, earliest)
             self.num_antecedent = num_true
             if total_applicable > 0:
                 self.antecedent_support = self.num_antecedent/total_applicable
